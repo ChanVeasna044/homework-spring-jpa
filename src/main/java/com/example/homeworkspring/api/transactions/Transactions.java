@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "sender_account_id")

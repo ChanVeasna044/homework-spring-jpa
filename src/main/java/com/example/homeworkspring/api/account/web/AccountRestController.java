@@ -23,34 +23,12 @@ public class AccountRestController {
 
     private final AccountService accountService;
 
-    @PostMapping("")
-    public BaseApi<?> createAccount(@RequestBody CreateAccountDto createAccountDto) {
 
-        Account account = accountService.CreateAccount(createAccountDto);
 
-        return BaseApi.builder()
-                .code(HttpStatus.OK.value())
-                .data(account)
-                .message("Nice")
-                .timeStamp(LocalDateTime.now())
-                .build();
+    @PostMapping
+    public EntityModel<?> createNewAccount(@RequestBody CreateAccountDto createAccountDto){
+        return accountService.createNewAccount(createAccountDto);
     }
-
-
-
-//    @DeleteMapping("/delete/{uuid}")
-//    public BaseApi<?> deleteUser(@PathVariable("uuid") String uuid) {
-//        accountService.d
-//
-//
-//        return BaseApi.builder()
-//                .code(HttpStatus.OK.value())
-//                .data("your uuid delete : "+uuid)
-//                .message("Nice")
-//                .status(true)
-//                .timeStamp(LocalDateTime.now())
-//                .build();
-//    }
 
     @GetMapping
     public CollectionModel<?> findAllAccount() {
@@ -60,6 +38,12 @@ public class AccountRestController {
     @GetMapping("/{uuid}")
     public EntityModel<?> findAccountByUuid(@PathVariable String uuid) {
         return accountService.findAccountByUuid(uuid);
+    }
+    @PostMapping("/{uuid}/transferLimit")
+    public EntityModel<?> changeTransferLimit(
+            @PathVariable String uuid,
+            @RequestBody ChangeTransferLimitDto changeTransferLimitDto){
+        return accountService.changeTransferLimitByUuid(uuid, changeTransferLimitDto);
     }
 
     @PutMapping("/{uuid}/disable")
