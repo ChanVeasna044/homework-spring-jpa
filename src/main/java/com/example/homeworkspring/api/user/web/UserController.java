@@ -1,5 +1,6 @@
 package com.example.homeworkspring.api.user.web;
 
+import com.example.homeworkspring.api.account.Account;
 import com.example.homeworkspring.api.base.BaseApi;
 import com.example.homeworkspring.api.user.User;
 import com.example.homeworkspring.api.user.UserService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -76,4 +78,21 @@ public class UserController {
         User user = userService.disableUser(uuid);
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/{uuid}/accounts")
+    public ResponseEntity<List<Account>> getUserAccounts(@PathVariable String uuid) {
+        List<Account> accounts = userService.getUserAccountsByUuid(uuid);
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+    @GetMapping("/{userUu2id}/accounts/{accountUuid}")
+    public ResponseEntity<Account> getAccountByUserAndAccountUuid(
+            @PathVariable String userUuid,
+            @PathVariable String accountUuid) {
+
+        Account account = userService.getAccountByUserUuidAndAccountUuid(userUuid, accountUuid);
+        return ResponseEntity.ok(account);
+    }
+
+
+
 }
